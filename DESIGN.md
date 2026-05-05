@@ -12,7 +12,7 @@ VRChatのミュート状態をOSC（Open Sound Control）経由でトグルす�
 | ファイル | `vrchat_mute_toggle.py` |
 | 言語 | Python 3.10+ |
 | GUI | tkinter（ダークテーマ、320×240px、常に最前面） |
-| ビルド | Nuitka onefile（`VRChatMuteToggle.exe`、約11MB） |
+| ビルド | Pyinstaller onefile（`vrchat_mute_toggle.exe`、約16.5MB） |
 | 設定ファイル | `vrchat_mute_config.json`（exeと同じディレクトリに生成） |
 
 ## 依存ライブラリ
@@ -37,7 +37,7 @@ pip install python-osc keyboard pystray Pillow
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                   VRChatMuteApp                         │
+│               vrchat_mute_toggle                        │
 │                                                         │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
 │  │  キーフック   │  │   OSC送信    │  │  OSC受信     │  │
@@ -153,17 +153,11 @@ pip install python-osc keyboard pystray Pillow
 | `osc_ip` | string | VRChatのOSC受信アドレス |
 | `osc_port` | int | VRChatのOSC受信ポート |
 
-## Nuitka ビルド
+## Pyinstaller ビルド
 
 ```
-python -m nuitka --standalone --onefile --windows-console-mode=disable --output-dir=./dist --output-filename=VRChatMuteToggle.exe --enable-plugin=tk-inter ./vrchat_mute_toggle.py
+pyinstaller --onefile --noconsole --name vrchat_mute_toggle .\vrchat_mute_toggle.py
 ```
-
-### Nuitka対応のための実装上の注意
-
-- `CONFIG_DIR` は `sys.executable` のディレクトリを使用（`__file__` は一時展開ディレクトリを指すため）
-- 判定: `getattr(sys, "frozen", False) or "__compiled__" in dir()`
-- `subprocess.CREATE_NO_WINDOW` で `tasklist` 呼び出し時にコンソールウィンドウを抑制
 
 ## OSCプロトコル
 

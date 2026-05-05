@@ -32,7 +32,7 @@ python vrchat_mute_toggle.py
 ## ビルド
 
 ```
-python -m nuitka --standalone --onefile --windows-console-mode=disable --output-dir=./dist --output-filename=VRChatMuteToggle.exe --enable-plugin=tk-inter ./vrchat_mute_toggle.py
+pyinstaller --onefile --noconsole --name vrchat_mute_toggle .\vrchat_mute_toggle.py
 ```
 
 ## ライセンス

@@ -26,8 +26,7 @@ from PIL import Image, ImageDraw
 import pystray
 
 # --- 設定ファイル ---
-# Nuitka onefile対応: __file__は一時ディレクトリを指すのでsys.executableを使う
-if getattr(sys, "frozen", False) or "__compiled__" in dir():
+if getattr(sys, "frozen", False):
     CONFIG_DIR = os.path.dirname(os.path.abspath(sys.executable))
 else:
     CONFIG_DIR = os.path.dirname(os.path.abspath(__file__))
