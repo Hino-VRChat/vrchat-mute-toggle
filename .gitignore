@@ -1,0 +1,11 @@
+# Build artifacts (Nuitka)
+dist/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor
+.vscode/
+*.swp
