@@ -18,7 +18,7 @@ VRChatのミュート状態をOSC（Open Sound Control）経由でトグルす�
 
 ## 使い方
 1. VRChatを起動し、OSCを有効化（Action Menu → Options → OSC → Enabled）
-2. `VRChatMuteToggle.exe` を実行（Python環境があれば`python vrchat_mute_toggle.py`でも可）
+2. `vrchat_mute_toggle.exe` を実行（Python環境があれば`python vrchat_mute_toggle.py`でも可）
 3. Right Ctrl（デフォルト）でミュートを切り替え
 
 ホットキーはGUI上の「変更」ボタンから変更できます。
