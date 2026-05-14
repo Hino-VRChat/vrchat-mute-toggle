@@ -153,6 +153,9 @@ class VRChatMuteApp:
         # キーフックの自動再登録（60秒ごと）
         self._periodic_hook_reinstall()
 
+        self._create_tray_icon()
+
+
     def _build_ui(self):
         tk.Label(
             self.root, text="VRChat Mute Toggle",
@@ -406,18 +409,19 @@ class VRChatMuteApp:
     def _on_minimize(self, event=None):
         if self.root.state() == "iconic":
             self.root.withdraw()
-            self._create_tray_icon()
 
     def _create_tray_icon(self):
         if self.tray_icon is not None:
             return
+        state_str = "ミュート" if self.mute_state else "通話中"
+        title = f"VRChat Mute Toggle - {state_str}"
         icon_image = create_tray_icon(self.mute_state)
         menu = pystray.Menu(
             pystray.MenuItem("表示", self._tray_show_window, default=True),
             pystray.MenuItem("終了", self._tray_quit),
         )
         self.tray_icon = pystray.Icon(
-            "vrchat_mute", icon_image, "VRChat Mute Toggle", menu
+            "vrchat_mute", icon_image, title, menu
         )
         threading.Thread(target=self.tray_icon.run, daemon=True).start()
 
@@ -428,9 +432,6 @@ class VRChatMuteApp:
             self.tray_icon.title = f"VRChat Mute Toggle - {state_str}"
 
     def _tray_show_window(self, icon=None, item=None):
-        if self.tray_icon is not None:
-            self.tray_icon.stop()
-            self.tray_icon = None
         self.root.after(0, self._restore_window)
 
     def _restore_window(self):
