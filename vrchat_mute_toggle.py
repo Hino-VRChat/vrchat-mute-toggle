@@ -417,7 +417,11 @@ class VRChatMuteApp:
         title = f"VRChat Mute Toggle - {state_str}"
         icon_image = create_tray_icon(self.mute_state)
         menu = pystray.Menu(
-            pystray.MenuItem("表示", self._tray_show_window, default=True),
+            pystray.MenuItem(
+                lambda item: "非表示" if self.root.winfo_viewable() else "表示", 
+                self._tray_toggle_window,
+                default=True
+                ),
             pystray.MenuItem("終了", self._tray_quit),
         )
         self.tray_icon = pystray.Icon(
@@ -431,8 +435,11 @@ class VRChatMuteApp:
             state_str = "ミュート" if self.mute_state else "通話中"
             self.tray_icon.title = f"VRChat Mute Toggle - {state_str}"
 
-    def _tray_show_window(self, icon=None, item=None):
-        self.root.after(0, self._restore_window)
+    def _tray_toggle_window(self):
+        if self.root.winfo_viewable():
+            self.root.after(0, self.root.withdraw)
+        else:
+            self.root.after(0, self._restore_window)
 
     def _restore_window(self):
         self.root.deiconify()
@@ -440,7 +447,7 @@ class VRChatMuteApp:
         self.root.lift()
         self.root.focus_force()
 
-    def _tray_quit(self, icon=None, item=None):
+    def _tray_quit(self):
         if self.tray_icon is not None:
             self.tray_icon.stop()
             self.tray_icon = None
